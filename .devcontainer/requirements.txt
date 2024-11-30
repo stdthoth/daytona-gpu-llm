@@ -1,4 +1,0 @@
-transformers
-torch
-numpy
-flask   # If you're setting up a server API

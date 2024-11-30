@@ -1,23 +1,15 @@
-# Use an official Python image as a base
-FROM python:3.9-slim
+FROM pytorch/pytorch:latest
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory in the container
-WORKDIR /workspace
+RUN pip install torch torchvision torchaudio
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install transformers
 
-# Copy the rest of the application files into the container
-COPY . .
+WORKDIR /app
 
-# Set environment variable for interactive mode
-ENV PYTHONUNBUFFERED=1
+COPY . /app
 
-# Set the default command (you can override this in devcontainer.json)
-CMD ["python", "run_model.py"]
+CMD [ "python", "start.py"]
